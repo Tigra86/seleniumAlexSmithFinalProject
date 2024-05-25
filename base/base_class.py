@@ -1,33 +1,40 @@
 import datetime
 import os
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+
 
 class Base:
     def __init__(self, driver):
         self.driver = driver
+        self.wait = WebDriverWait(self.driver, 10)
 
-    # Method get current URL
-    def get_current_url(self):
-        get_url = self.driver.current_url
+    # Method assert URL
+    def assert_url(self, url):
+        assert url == self.driver.current_url, f"Wrong URL: {self.driver.current_url}"
         print("")
-        print(f"Current URL is {get_url}")
+        print(f"Current URL is correct: {url}")
 
-    # Method assert page title text
-    @staticmethod
-    def assert_page_title_text(actual_page_title_text, expected_page_title_text):
-        assert actual_page_title_text == expected_page_title_text, (f"Wrong page title text is displaying: "
-                                                                    f"{actual_page_title_text}")
-        print(f"Correct page title text is displaying")
+    # Method assert page title
+    def assert_page_title(self, page_title):
+        assert page_title == self.driver.title, f"Wrong page title is displaying: {self.driver.title}"
+        print(f"Correct page title is displaying: {page_title}")
 
     # Method take screenshot
     def take_screenshot(self):
         now_date = datetime.datetime.now().strftime("%Y.%m.%d-%H.%M.%S")
         name_screenshot = f"screenshot-{now_date}.png"
-        self.driver.save_screenshot(f"/{os.getcwd()}/../screen/{name_screenshot}")
+        self.driver.save_screenshot(f"{os.getcwd()}/screen/{name_screenshot}")
         print("Screenshot is taken")
 
-    # Method assert URL
-    def assert_url(self, expected_url):
-        actual_url = self.driver.current_url
-        assert actual_url == expected_url, f"Wrong page is displaying: {actual_url}"
-        print(f"Correct page is displaying")
+    def is_clickable(self, locator):
+        return self.wait.until(ec.element_to_be_clickable(locator))
+
+    def is_visible(self, locator):
+        return self.wait.until(ec.visibility_of_element_located(locator))
+
+    def assert_checkbox_is_selected(self, locator):
+        self.driver.find_element(*locator).is_selected(), f"Checkbox is not selected"
+        print("Checkbox is selected")
+

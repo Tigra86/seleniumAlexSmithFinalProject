@@ -1,61 +1,49 @@
-import time
-
 from base.base_class import Base
 
 
-class SearchResultPage(Base):
+class InventoryPage(Base):
 
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
 
     # Locators
-    sort_by_dropdown = ("id", "a-autoid-0")
-    high_to_low_option = ("id", "s-result-sort-select_2")
-    hanes_checkbox = ("xpath", "//*[@id='p_89/Hanes']/span/a/div/label/i")
-    anrabess_checkbox = ("xpath", "//*[@id='p_89/ANRABESS']/span/a/div/label/i")
-    product = ("xpath", "//div[@cel_widget_id='MAIN-SEARCH_RESULTS-4']")
-    product_title = ("id", "productTitle")
+    coins_checkbox = ("xpath", "//span[text()='Coins']")
+    folded_bills_checkbox = ("xpath", "//span[text()='Folded bills']")
+    cards_checkbox = ("xpath", "//span[text()='Cards']")
+    item_card = ("xpath", "(//span[@class='br_absolute br_inset-0 br_z-10'])[2]")
 
     # Getters
-    def get_sort_by_dropdown(self):
-        return self.is_clickable(self.sort_by_dropdown)
+    def get_coins_checkbox(self):
+        return self.is_clickable(self.coins_checkbox)
 
-    def get_high_to_low_option(self):
-        return self.is_clickable(self.high_to_low_option)
+    def get_folded_bills_checkbox(self):
+        return self.is_clickable(self.folded_bills_checkbox)
 
-    def get_hanes_checkbox(self):
-        return self.is_visible(self.hanes_checkbox)
+    def get_cards_checkbox(self):
+        return self.is_clickable(self.cards_checkbox)
 
-    def get_anrabess_checkbox(self):
-        return self.is_visible(self.anrabess_checkbox)
-
-    def get_product(self):
-        return self.is_clickable(self.product)
-
-    def get_product_title(self):
-        return self.is_visible(self.product_title)
+    def get_item_card(self):
+        return self.is_clickable(self.item_card)
 
     # Actions
-    def select_dropdown_option(self):
-        self.get_sort_by_dropdown().click()
-        self.get_high_to_low_option().click()
-        print("Select drop-down option")
-
     def select_filters(self):
-        self.get_hanes_checkbox().click()
-        self.get_anrabess_checkbox().click()
+        self.get_coins_checkbox().click()
+        self.get_folded_bills_checkbox().click()
+        self.get_cards_checkbox().click()
         print("Select multiple filters")
 
-    def select_item_text(self):
-        return self.get_product().text
-
     def select_item(self):
-        self.get_product().click()
+        self.get_item_card().click()
+        print("Select item")
 
     # Methods
     def select_product(self):
-        self.select_dropdown_option()
+        self.assert_url("https://bellroy.com/products/category/wallets")
+        self.assert_page_title("Slim Leather Wallets, Zip Wallets, Cardholders For Men & Women")
         self.select_filters()
+        self.assert_checkbox_is_selected(self.coins_checkbox)
+        self.assert_checkbox_is_selected(self.folded_bills_checkbox)
+        self.assert_checkbox_is_selected(self.cards_checkbox)
         self.select_item()
         self.take_screenshot()

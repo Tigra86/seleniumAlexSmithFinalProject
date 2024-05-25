@@ -1,50 +1,34 @@
 from base.base_class import Base
 
 
-class InventoryPage(Base):
+class ProductPage(Base):
 
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
 
     # Locators
-    coins_checkbox = ("xpath", "//span[text()='Coins']")
-    folded_bills_checkbox = ("xpath", "//span[text()='Folded bills']")
-    cards_checkbox = ("xpath", "//span[text()='Cards']")
-    item_card = ("xpath", "(//span[@class='br_absolute br_inset-0 br_z-10'])[2]")
+    add_to_cart_btn = ("xpath", "//button[@class='AddToCart HtmlProductAddToCart br_my-4 ']")
+    checkout_btn = ("xpath", "/html/body/bellroy-minicart-slider/bellroy-checkout/div/div/div[3]/a")
 
     # Getters
-    def get_coins_checkbox(self):
-        return self.is_clickable(self.coins_checkbox)
+    def get_add_to_cart_button(self):
+        return self.is_clickable(self.add_to_cart_btn)
 
-    def get_folded_bills_checkbox(self):
-        return self.is_clickable(self.folded_bills_checkbox)
-
-    def get_cards_checkbox(self):
-        return self.is_clickable(self.cards_checkbox)
-
-    def get_item_card(self):
-        return self.is_clickable(self.item_card)
+    def get_checkout_button(self):
+        return self.is_clickable(self.checkout_btn)
 
     # Actions
+    def click_add_to_cart_button(self):
+        self.get_add_to_cart_button().click()
 
-    def select_filters(self):
-        self.get_coins_checkbox().click()
-        self.get_folded_bills_checkbox().click()
-        self.get_cards_checkbox().click()
-        print("Select multiple filters")
-
-    def select_item(self):
-        self.get_item_card().click()
-        print("Select item")
+    def click_checkout_button(self):
+        self.get_checkout_button().click()
 
     # Methods
-    def select_product(self):
-        self.assert_url("https://bellroy.com/products/category/wallets")
-        self.assert_page_title("Slim Leather Wallets, Zip Wallets, Cardholders For Men & Women")
-        self.select_filters()
-        self.assert_checkbox_is_selected(self.coins_checkbox)
-        self.assert_checkbox_is_selected(self.folded_bills_checkbox)
-        self.assert_checkbox_is_selected(self.cards_checkbox)
-        self.select_item()
+    def add_to_cart_and_checkout(self):
+        self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid")
+        self.assert_page_title("Travel Folio | Zip Leather Passport Holder for Travel | Bellroy")
+        self.click_add_to_cart_button()
+        self.click_checkout_button()
         self.take_screenshot()

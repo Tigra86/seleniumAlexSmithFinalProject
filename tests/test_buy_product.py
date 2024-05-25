@@ -1,15 +1,20 @@
-import time
 from pages.main_page import MainPage
+from pages.inventory_page import InventoryPage
+from pages.product_page import ProductPage
+from pages.checkout_page import CheckoutPage
 
 
-def test_about_link(set_up):
-
-    driver = set_up
-
-    login = LoginPage(driver)
-    login.authorization()
+def test_buy_product(driver):
+    driver = driver
 
     mp = MainPage(driver)
-    mp.select_about_link()
+    mp.visit_wallets_page()
 
-    time.sleep(3)
+    ip = InventoryPage(driver)
+    ip.select_product()
+
+    pp = ProductPage(driver)
+    pp.add_to_cart_and_checkout()
+
+    cp = CheckoutPage(driver)
+    cp.verify_checkout_page()
