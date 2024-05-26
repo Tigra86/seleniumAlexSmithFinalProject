@@ -2,8 +2,10 @@ from pages.main_page import MainPage
 from pages.inventory_page import InventoryPage
 from pages.product_page import ProductPage
 from pages.checkout_page import CheckoutPage
+import allure
 
 
+@allure.description("Buy product")
 def test_buy_product(driver):
     driver = driver
 

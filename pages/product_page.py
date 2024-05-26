@@ -1,4 +1,6 @@
 from base.base_class import Base
+from utilities.logger import Logger
+import allure
 
 
 class ProductPage(Base):
@@ -27,8 +29,11 @@ class ProductPage(Base):
 
     # Methods
     def add_to_cart_and_checkout(self):
-        self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid")
-        self.assert_page_title("Travel Folio | Zip Leather Passport Holder for Travel | Bellroy")
-        self.click_add_to_cart_button()
-        self.click_checkout_button()
-        self.take_screenshot()
+        with allure.step("Add product to cart and click Checkout button"):
+            Logger.add_start_step(method="add_to_cart_and_checkout")
+            self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid")
+            self.assert_page_title("Travel Folio | Zip Leather Passport Holder for Travel | Bellroy")
+            self.click_add_to_cart_button()
+            self.click_checkout_button()
+            self.take_screenshot()
+            Logger.add_end_step(url=self.driver.current_url, method="add_to_cart_and_checkout")

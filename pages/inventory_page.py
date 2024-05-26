@@ -1,4 +1,6 @@
 from base.base_class import Base
+from utilities.logger import Logger
+import allure
 
 
 class InventoryPage(Base):
@@ -39,11 +41,14 @@ class InventoryPage(Base):
 
     # Methods
     def select_product(self):
-        self.assert_url("https://bellroy.com/products/category/wallets")
-        self.assert_page_title("Slim Leather Wallets, Zip Wallets, Cardholders For Men & Women")
-        self.select_filters()
-        self.assert_checkbox_is_selected(self.coins_checkbox)
-        self.assert_checkbox_is_selected(self.folded_bills_checkbox)
-        self.assert_checkbox_is_selected(self.cards_checkbox)
-        self.select_item()
-        self.take_screenshot()
+        with allure.step("Select product"):
+            Logger.add_start_step(method="select_product")
+            self.assert_url("https://bellroy.com/products/category/wallets")
+            self.assert_page_title("Slim Leather Wallets, Zip Wallets, Cardholders For Men & Women")
+            self.select_filters()
+            self.assert_checkbox_is_selected(self.coins_checkbox)
+            self.assert_checkbox_is_selected(self.folded_bills_checkbox)
+            self.assert_checkbox_is_selected(self.cards_checkbox)
+            self.select_item()
+            self.take_screenshot()
+            Logger.add_end_step(url=self.driver.current_url, method="select_product")

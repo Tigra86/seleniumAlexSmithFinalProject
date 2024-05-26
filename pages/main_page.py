@@ -1,4 +1,6 @@
 from base.base_class import Base
+from utilities.logger import Logger
+import allure
 
 
 class MainPage(Base):
@@ -21,7 +23,10 @@ class MainPage(Base):
 
     # Methods
     def visit_wallets_page(self):
-        self.assert_url("https://bellroy.com/")
-        self.assert_page_title("Bellroy | Considered Carry Goods: Wallets, Bags, Phone Cases & More")
-        self.click_wallets_link()
-        self.take_screenshot()
+        with allure.step("Visit Wallets page"):
+            Logger.add_start_step(method="visit_wallets_page")
+            self.assert_url("https://bellroy.com/")
+            self.assert_page_title("Bellroy | Considered Carry Goods: Wallets, Bags, Phone Cases & More")
+            self.click_wallets_link()
+            self.take_screenshot()
+            Logger.add_end_step(url=self.driver.current_url, method="visit_wallets_page")
