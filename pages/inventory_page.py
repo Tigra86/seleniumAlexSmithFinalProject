@@ -1,14 +1,10 @@
 from base.base_class import Base
 from utilities.logger import Logger
 import allure
+import time
 
 
 class InventoryPage(Base):
-
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
-
     # Locators
     coins_checkbox = ("xpath", "//span[text()='Coins']")
     folded_bills_checkbox = ("xpath", "//span[text()='Folded bills']")
@@ -50,5 +46,5 @@ class InventoryPage(Base):
             self.assert_checkbox_is_selected(self.folded_bills_checkbox)
             self.assert_checkbox_is_selected(self.cards_checkbox)
             self.select_item()
-            self.take_screenshot()
+            time.sleep(1)
             Logger.add_end_step(url=self.driver.current_url, method="select_product")

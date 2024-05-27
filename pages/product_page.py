@@ -1,14 +1,10 @@
 from base.base_class import Base
 from utilities.logger import Logger
 import allure
+import time
 
 
 class ProductPage(Base):
-
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
-
     # Locators
     add_to_cart_btn = ("xpath", "//button[@class='AddToCart HtmlProductAddToCart br_my-4 ']")
     checkout_btn = ("xpath", "/html/body/bellroy-minicart-slider/bellroy-checkout/div/div/div[3]/a")
@@ -31,9 +27,9 @@ class ProductPage(Base):
     def add_to_cart_and_checkout(self):
         with allure.step("Add product to cart and click Checkout button"):
             Logger.add_start_step(method="add_to_cart_and_checkout")
-            self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid")
+            self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid#slide-0")
             self.assert_page_title("Travel Folio | Zip Leather Passport Holder for Travel | Bellroy")
             self.click_add_to_cart_button()
             self.click_checkout_button()
-            self.take_screenshot()
+            time.sleep(1)
             Logger.add_end_step(url=self.driver.current_url, method="add_to_cart_and_checkout")

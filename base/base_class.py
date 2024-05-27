@@ -21,6 +21,11 @@ class Base:
         assert page_title == self.driver.title, f"Wrong page title is displaying: {self.driver.title}"
         print(f"Correct page title is displaying: {page_title}")
 
+    # Method assert checkbox is selected
+    def assert_checkbox_is_selected(self, locator):
+        self.driver.find_element(*locator).is_selected(), f"Checkbox is not selected"
+        print("Checkbox is selected")
+
     # Method take screenshot
     def take_screenshot(self):
         now_date = datetime.datetime.now().strftime("%Y.%m.%d-%H.%M.%S")
@@ -33,8 +38,3 @@ class Base:
 
     def is_visible(self, locator):
         return self.wait.until(ec.visibility_of_element_located(locator))
-
-    def assert_checkbox_is_selected(self, locator):
-        self.driver.find_element(*locator).is_selected(), f"Checkbox is not selected"
-        print("Checkbox is selected")
-

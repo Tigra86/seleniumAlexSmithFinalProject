@@ -1,14 +1,10 @@
 from base.base_class import Base
 from utilities.logger import Logger
 import allure
+import time
 
 
 class MainPage(Base):
-
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
-
     # Locators
     wallets_link = ("id", "1_wallets_all-wallets")
 
@@ -28,5 +24,5 @@ class MainPage(Base):
             self.assert_url("https://bellroy.com/")
             self.assert_page_title("Bellroy | Considered Carry Goods: Wallets, Bags, Phone Cases & More")
             self.click_wallets_link()
-            self.take_screenshot()
+            time.sleep(1)
             Logger.add_end_step(url=self.driver.current_url, method="visit_wallets_page")
