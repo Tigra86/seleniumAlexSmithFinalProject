@@ -27,7 +27,7 @@ class ProductPage(Base):
     def add_to_cart_and_checkout(self):
         with allure.step("Add product to cart and click Checkout button"):
             Logger.add_start_step(method="add_to_cart_and_checkout")
-            self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid#slide-0")
+            self.assert_url("https://bellroy.com/products/travel-folio?color=caramel&material=leather_rfid")
             self.assert_page_title("Travel Folio | Zip Leather Passport Holder for Travel | Bellroy")
             self.click_add_to_cart_button()
             self.click_checkout_button()
